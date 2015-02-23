@@ -130,3 +130,35 @@
 ;; Langauage-specific
 (load "setup-clojure.el")
 (load "setup-js.el")
+
+;; disable toolbar
+(tool-bar-mode -1)
+
+;autocomplete
+;; Auto complete
+(require 'auto-complete-config)
+;(add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
+(setq ac-delay 0.0)
+;(setq ac-use-quick-help t)
+(setq ac-quick-help-delay 0.5)
+;(setq ac-use-fuzzy 1)
+;(setq ac-auto-start 1)
+;(setq ac-auto-show-menu 1)
+(ac-config-default)
+
+;; cider autocomplete
+(require 'ac-cider)
+(add-hook 'cider-mode-hook 'ac-flyspell-workaround)
+(add-hook 'cider-mode-hook 'ac-cider-setup)
+(add-hook 'cider-repl-mode-hook 'ac-cider-setup)
+(eval-after-load "auto-complete"
+  '(progn
+     (add-to-list 'ac-modes 'cider-mode)
+     (add-to-list 'ac-modes 'cider-repl-mode)))
+
+;; autocomplete on TAB
+(defun set-auto-complete-as-completion-at-point-function ()
+  (setq completion-at-point-functions '(auto-complete)))
+
+(add-hook 'auto-complete-mode-hook 'set-auto-complete-as-completion-at-point-function)
+(add-hook 'cider-mode-hook 'set-auto-complete-as-completion-at-point-function)	 
